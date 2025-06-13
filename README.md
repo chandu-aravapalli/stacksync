@@ -95,6 +95,52 @@ def main():
     return {"status": "success", "statistics": result}
 ```
 
+## Live Demo
+
+The service is currently deployed at: https://stackimg-50488747834.europe-west1.run.app
+
+### Test the Live Service
+
+1. Basic Test:
+
+```bash
+curl -X POST https://stackimg-50488747834.europe-west1.run.app/execute \
+  -H "Content-Type: application/json" \
+  -d '{
+    "script": "def main():\n    print(\"Hello from Cloud Run!\")\n    return {\"status\": \"success\", \"message\": \"Test successful\"}"
+  }'
+```
+
+2. Pandas DataFrame Test:
+
+```bash
+curl -X POST https://stackimg-50488747834.europe-west1.run.app/execute \
+  -H "Content-Type: application/json" \
+  -d '{
+    "script": "def main():\n    import pandas as pd\n    df = pd.DataFrame({\"test\": [1, 2, 3]})\n    print(\"DataFrame created successfully\")\n    return {\"status\": \"success\", \"data\": df.to_dict()}"
+  }'
+```
+
+3. Statistical Analysis Test:
+
+```bash
+curl -X POST https://stackimg-50488747834.europe-west1.run.app/execute \
+  -H "Content-Type: application/json" \
+  -d '{
+    "script": "def main():\n    import pandas as pd\n    import numpy as np\n    data = {\"A\": np.random.rand(5), \"B\": np.random.rand(5)}\n    df = pd.DataFrame(data)\n    result = df.describe().to_dict()\n    print(\"Complex operation completed\")\n    return {\"status\": \"success\", \"statistics\": result}"
+  }'
+```
+
+4. Error Handling Test:
+
+```bash
+curl -X POST https://stackimg-50488747834.europe-west1.run.app/execute \
+  -H "Content-Type: application/json" \
+  -d '{
+    "script": "def main():\n    print(\"This will fail\")\n    return undefined_variable"
+  }'
+```
+
 ## Cloud Run Deployment
 
 1. Build and tag the Docker image:
